@@ -1,0 +1,50 @@
+#!/bin/bash
+echo "checking dependencies(binaries required)"
+file="{{ .chezmoi.sourceDir }}/dot_config/bash/installs"
+
+# 1. Check if the file itself exists
+if [[ ! -f "$file" ]]; then
+  echo "Error: Dependency file '$file' not found."
+  exit 1
+fi
+
+# 2. Loop through cleaned lines
+# grep -v '^#' removes lines starting with #
+# sed 's/#.*//' removes comments at the end of lines
+# sed '/^$/d' removes empty lines
+# Use a while loop to handle lines instead of words
+grep -v '^#' "$file" | sed 's/#.*//' | sed '/^$/d' | while IFS= read -r cmd; do
+  # -r in read prevents mangling backslashes
+  read -p "Have you installed '$cmd'? [Y/n/a(yes to all)]: " response < /dev/tty
+
+  # Convert response to lowercase
+  response=${response,,}
+
+  if [[ "$response" == "a" ]]; then
+    echo "All commands confirmed/installed."
+    break
+  elif [[ ! "$response" =~ ^(yes|y|)$ ]]; then
+    echo "Aborted."
+    echo "Please install '$cmd' before continuing."
+    echo "Don't forget to install completions as well and move them to the right directory as specified in bash/completions.sh"
+    exit 1
+  fi
+done
+
+echo "configuring fresh go installation"
+go env -w GOPATH="$HOME/.go"
+
+if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+  echo "setting up ssh keys"
+  # WARN: no password is not the best, but ok for now. also maybe add more personal info stuff like email and name
+  # (there are flags for those)
+  # Also note the comments in .ssh/config
+  ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N ""
+fi
+
+echo "setting up ionos server"
+# needed because of settings in config
+mkdir -p "$HOME/.ssh/sockets"
+ssh-copy-id -i ~/.ssh/id_ed25519.pub ionos
+
+gh auth setup-git

@@ -1,0 +1,65 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
+# WARN: Put all language/tool specific configs in binary-config IF you didn't choose them(an example is the go exports). !!IMPORTANT
+
+# source various modules
+
+MODULE_DIR="$HOME/.config/bash/conf.d/"
+# this determines logging
+# DOTFILES_VERBOSE=false
+
+if [ -d "$MODULE_DIR" ]; then
+
+  if [ -f "$MODULE_DIR/functions.sh" ]; then
+    . "$MODULE_DIR/functions.sh"
+  fi
+
+  if [ -f "$MODULE_DIR/exports.sh" ]; then
+    . "$MODULE_DIR/exports.sh"
+  fi
+
+  # NOTE: if you don't know where to put something, put it here
+  if [ -f "$MODULE_DIR/options.sh" ]; then
+    . "$MODULE_DIR/options.sh"
+  fi
+
+  if [ -f "$MODULE_DIR/completions.sh" ]; then
+    . "$MODULE_DIR/completions.sh"
+  fi
+
+  if [ -f "$MODULE_DIR/aliases.sh" ]; then
+    . "$MODULE_DIR/aliases.sh"
+  fi
+
+  if [ -f "$MODULE_DIR/keybindings.sh" ]; then
+    . "$MODULE_DIR/keybindings.sh"
+  fi
+
+  if [ -f "$MODULE_DIR/binary-config.sh" ]; then
+    . "$MODULE_DIR/binary-config.sh"
+  fi
+fi

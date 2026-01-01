@@ -1,0 +1,19 @@
+Host *
+    # Keep the connection open in the background for 1 hour
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h-%p
+    ControlPersist 1h
+    # Automatically add new keys to your agent
+    AddKeysToAgent yes
+
+# NOTE: you have to manually add the public key to the ionos server through the online remote server.
+# The easiest way is to simply temporarily allow password access
+# run sudo nano /etc/ssh/sshd_config and add the following:
+# PasswordAuthentication yes
+# PubkeyAuthentication yes
+# then run sudo systemctl restart ssh
+Host ionos
+    HostName 217.154.214.211
+    User jorgemells
+    IdentityFile ~/.ssh/id_ed25519
+    Port 10000

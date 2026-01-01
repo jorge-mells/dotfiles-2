@@ -1,0 +1,21 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[core]
+  pager = delta
+  editor = nvim
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  side-by-side = true
+[merge]
+  conflictStyle = zdiff3
+[init]
+	defaultBranch = main

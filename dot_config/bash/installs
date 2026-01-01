@@ -1,0 +1,32 @@
+# NOTE: comment out all programs you don't want installed !! IMPORTANT
+
+# be sure to install dependencies for these
+# INSTALL-LANGS
+go
+rust
+python
+node
+nvm
+ruby
+
+# INSTALL-GENERAL
+wezterm
+sesh
+tmuxinator
+wezterm
+fzf
+bat
+zoxide
+gh
+delta
+git
+oh-my-posh
+
+# HELP TOOLS
+tealdeer
+cheat
+cht.sh
+navi
+
+# MIGHT-CONSIDER
+# mouseless
