@@ -21,3 +21,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # GO EXPORTS
 _export_path_once "/usr/local/go/bin"
 _export_path_once "$(go env GOPATH)/bin"
+
+# RUST EXPORTS
+_export_path_once "$HOME/.cargo/bin"
+
