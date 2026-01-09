@@ -12,13 +12,13 @@ root: ~/Development/uni-semester-projects/sec/
 # Project hooks
 
 # Runs on project start, always
-# on_project_start: command
+on_project_start: fusermount -u sec-home; sshfs -p 2222 sec2526@localhost:/home/sec2526 /home/jorgemells/Development/uni-semester-projects/sec/sec-home/ -o cache=yes -o kernel_cache -o compression=no
 
 # Run on project start, the first time
 on_project_first_start: mkdir -p ~/Development/uni-semester-projects/sec/
 
 # Run on project start, after the first time
-# on_project_restart: command
+# on_project_restart:
 
 # Run on project exit ( detaching from tmux session )
 # on_project_exit: command
