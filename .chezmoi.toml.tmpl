@@ -1,13 +1,35 @@
+{{- /* 1. Logic & Prompting Phase */ -}}
+{{- $email := promptStringOnce . "email" "Email address" "your@email.com" -}}
+{{- $name := promptStringOnce . "name" "Name" "Your Name" -}}
+
+{{/* NOTE: add more providers to the list below */}}
+{{/* {{- $providers := list "gemini" "anthropic" "openai" -}} */}}
+{{- $providers := list "gemini" -}}
+{{- $ai_data := dict -}}
+{{- range $p := $providers -}}
+  {{- $val := promptStringOnce $ $p (printf "%s API Key" ($p | title)) "" -}}
+  {{- $_ := set $ai_data $p $val -}}
+{{- end -}}
+
+{{- /* 2. Configuration Output Phase */ -}}
 [edit]
     command = "nvim"
 
 [merge]
     command = "nvim"
-    args = ["-d", "{{ "{{ .Destination }}" }}", "{{ "{{ .Source }}" }}", "{{ "{{ .Target }}" }}"]
-
-{{ $email := promptStringOnce . "email" "Email address" }}
-{{ $name := promptStringOnce . "name" "Name" }}
+    {{/* We use printf "%q" to escape the {{ }} tags so they aren't evaluated now */}}
+    args = [
+        "-d",
+        {{ printf "%q" "{{ .Destination }}" }},
+        {{ printf "%q" "{{ .Source }}" }},
+        {{ printf "%q" "{{ .Target }}" }}
+    ]
 
 [data]
     name = {{ $name | quote }}
     email = {{ $email | quote }}
+    providers = {{ $providers | toJson }}
+    {{/*Output the AI keys into the same [data] section */}}
+{{- range $k, $v := $ai_data }}
+    {{ $k }} = {{ $v | quote }}
+{{- end }}

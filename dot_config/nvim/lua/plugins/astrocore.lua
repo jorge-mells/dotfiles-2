@@ -50,6 +50,7 @@ return {
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file
+        ai_cmp = false,
       },
     },
     -- Mappings can be configured through AstroCore as well.
@@ -79,6 +80,11 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+      },
+      -- NOTE: PERSONAL MAPPINGS
+      t = {
+        -- This maps Esc to the true Neovim "exit terminal mode" command
+        ["<C-n>"] = [[<C-\><C-n>]],
       },
     },
   },

@@ -62,4 +62,8 @@ if [ -d "$MODULE_DIR" ]; then
   if [ -f "$MODULE_DIR/binary-config.sh" ]; then
     . "$MODULE_DIR/binary-config.sh"
   fi
+
+  if [ -f "$MODULE_DIR/secrets.sh" ]; then
+    . "$MODULE_DIR/secrets.sh"
+  fi
 fi
