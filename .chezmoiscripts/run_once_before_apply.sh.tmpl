@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
+echo "this script is skipped if it has already been run once"
+if [[ -d "$HOME/.config/chezmoi" ]]; then
+  echo "skipping script..."
+  exit 0
+fi
+
 echo "checking dependencies(binaries required)"
 file="{{ .chezmoi.sourceDir }}/dot_config/bash/installs"
 
@@ -45,6 +51,10 @@ fi
 echo "setting up ionos server"
 # needed because of settings in config
 mkdir -p "$HOME/.ssh/sockets"
-ssh-copy-id -i ~/.ssh/id_ed25519.pub ionos
+echo "!!! don't forget to copy your key manually to your ionos server manually. automating it is a bit more complex !!!"
+# ssh-copy-id -i ~/.ssh/id_ed25519.pub ionos
 
-gh auth setup-git
+gh auth login
+
+# ensure tmux is ready to go
+git clone https://github.com/tmux-plugins/tpm ~/.local/share/tmux/plugins/tpm
